@@ -1,6 +1,6 @@
 {
   "name": "mini_sagar_ai_chatbot",
-  "type":"module",
+  "type": "module",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -12,6 +12,7 @@
   "description": "",
   "dependencies": {
     "@google/genai": "^1.16.0",
+    "dotenv": "^17.2.1",
     "express": "^5.1.0"
   }
 }
