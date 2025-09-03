@@ -1,18 +1,31 @@
-import express from 'express';
-import router from './routes/ai.sagar.js';
-import { config } from 'dotenv';
-config();
+import express from "express";
+import router from "./routes/ai.sagar.js";
+import { config } from "dotenv";
+import { createServer } from "http";
+import { Server } from "socket.io";
+import path from "path";
+
 const app = express();
 const PORT = process.env.PORT || 3000;
+const server = createServer(app);
+const io = new Server(server);
+config();
 
-app.use(express.json()); 
+app.set('view engine','ejs')
+app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Hello from server');
+io.on("connection", (socket) => {
+  socket.on("userMsg", (msg) => {
+    console.log(msg);
+  });
 });
 
-app.use('/ai', router); 
+app.get("/", (req, res) => {
+  res.render('index');
+});
 
-app.listen(PORT, () => {
+app.use("/ai", router);
+
+server.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });
