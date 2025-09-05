@@ -3,6 +3,7 @@ import router from "./routes/ai.sagar.js";
 import { config } from "dotenv";
 import { createServer } from "http";
 import { Server } from "socket.io";
+import { geminiAi } from "./services/ai.gemini.js";
 import path from "path";
 
 const app = express();
@@ -11,16 +12,19 @@ const server = createServer(app);
 const io = new Server(server);
 config();
 
-app.set('view engine','ejs')
+app.set('view engine','ejs');
 app.use(express.json());
 
 io.on("connection", (socket) => {
-  socket.on("userMsg", (msg) => {
-    console.log(msg);
+  socket.on("userMsg", async (msg) => {
+    const aiReplay = await geminiAi(msg);
+    // console.log(aiReplay);
+    socket.emit('aiReplay',aiReplay);
   });
 });
 
 app.get("/", (req, res) => {
+
   res.render('index');
 });
 

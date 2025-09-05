@@ -21,10 +21,12 @@
       const p = document.createElement('p');
       p.innerText = message;
       messages.appendChild(p);
-      socket.emit('msg',message);
-      
+      socket.emit('userMsg',message);
     });
-
-    
+    socket.on('aiReplay',(aiMsg) => {
+      const replayAi = document.createElement('p');
+      replayAi.innerText = aiMsg
+      messages.appendChild(replayAi);
+    })
   </script>
 </html>
