@@ -16,6 +16,8 @@ async function main(prompt) {
           Your name: Sagar G Kunte,
           Currently studying: B.E in Computer Science,
           College: JNN college of engineering,
+          High School : Loyola English high School (marks: 546) (percentage: 91.3333),
+          PUC : DVS Composite PU College(marks: 548) (percentage: 87.68),
           location: shimoga karnataka,
           Height: 5.11 inch,
           Weight: 58KG,
