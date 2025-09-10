@@ -4,6 +4,8 @@ import { config } from "dotenv";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import { geminiAi } from "./services/ai.gemini.js";
+import { checkForAuthentication } from "./middlewares/authentications.js";
+import { userRouter } from "./routes/user.js";
 import path from "path";
 
 const app = express();
@@ -14,6 +16,7 @@ config();
 
 app.set('view engine','ejs');
 app.use(express.json());
+app.use(checkForAuthentication());
 
 io.on("connection", (socket) => {
   socket.on("userMsg", async (msg) => {
@@ -29,6 +32,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/ai", router);
+
+app.use('/user',userRouter);
 
 server.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
