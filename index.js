@@ -6,17 +6,20 @@ import { Server } from "socket.io";
 import { geminiAi } from "./services/ai.gemini.js";
 import { checkForAuthentication } from "./middlewares/authentications.js";
 import { userRouter } from "./routes/user.js";
-import path from "path";
+import cookieParser from "cookie-parser";
+// import path from "path";
+config();
 
 const app = express();
+
 const PORT = process.env.PORT || 3000;
 const server = createServer(app);
 const io = new Server(server);
-config();
 
 app.set('view engine','ejs');
 app.use(express.json());
-app.use(checkForAuthentication());
+app.use(cookieParser());
+app.use(checkForAuthentication);
 
 io.on("connection", (socket) => {
   socket.on("userMsg", async (msg) => {
@@ -27,7 +30,7 @@ io.on("connection", (socket) => {
 });
 
 app.get("/", (req, res) => {
-
+  console.log('is this is working!');
   res.render('index');
 });
 
