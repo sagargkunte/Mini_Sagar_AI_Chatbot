@@ -19,7 +19,7 @@ const io = new Server(server);
 app.set('view engine','ejs');
 app.use(express.json());
 app.use(cookieParser());
-app.use(checkForAuthentication);
+app.use(checkForAuthentication('token'));
 
 io.on("connection", (socket) => {
   socket.on("userMsg", async (msg) => {
