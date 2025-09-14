@@ -7,6 +7,7 @@ import { geminiAi } from "./services/ai.gemini.js";
 import { checkForAuthentication } from "./middlewares/authentications.js";
 import { userRouter } from "./routes/user.js";
 import cookieParser from "cookie-parser";
+import { urlencoded } from "express";
 // import path from "path";
 config();
 
@@ -18,8 +19,9 @@ const io = new Server(server);
 
 app.set('view engine','ejs');
 app.use(express.json());
+app.use(urlencoded({extended:true}));
 app.use(cookieParser());
-app.use(checkForAuthentication('token'));
+app.use('/ai',checkForAuthentication('token'),router);
 
 io.on("connection", (socket) => {
   socket.on("userMsg", async (msg) => {
