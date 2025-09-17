@@ -32,7 +32,7 @@ io.on("connection", (socket) => {
 });
 
 app.get("/", (req, res) => {
-  console.log('is this is working!');
+  console.log('This is home Route!');
   res.render('index');
 });
 
