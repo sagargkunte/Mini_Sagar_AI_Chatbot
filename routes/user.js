@@ -1,11 +1,17 @@
 import { Router } from "express";
+import { User } from "../models/user";
 
 const router = Router();
 
-router.post('/login',(req,res) => {
-    const userDetails = req.body;
+router.post('/login',async (req,res) => {
+    const {email,password} = req.body;
+    const res = await User.findOne({email});
+    if(!res) {
+        res.send("Invalid Email or Password");
+    }
     console.log(userDetails);
-    return res.send('Successfully registered!');
+    return res.redirect('index');
+
 })
 
 router.get('/login',(req,res) => {
