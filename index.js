@@ -21,7 +21,7 @@ app.set('view engine','ejs');
 app.use(express.json());
 app.use(urlencoded({extended:true}));
 app.use(cookieParser());
-app.use('/ai',checkForAuthentication('token'),router);
+app.use(checkForAuthentication('token'));
 
 io.on("connection", (socket) => {
   socket.on("userMsg", async (msg) => {
