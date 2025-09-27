@@ -31,10 +31,16 @@ router.get('/signup',(req,res) => {
 })
 
 router.post('/signup',async (req,res) => {
-    const {fullName,email,password} = req.body;
-    let salt  = bcrypt.genSalt(10);
-    const hashPassword = bcrypt.hash(password,salt);
-    await User.create({fullName,email,salt,hashPassword});
-    res.cookie('user',JSON.stringify({email,fullName})).redirect('index');
+    console.log(req.body)
+    const {name,email,password} = req.body;
+    let salt  = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(password,salt);
+    console.log(name,email,password,hashPassword);
+    try {
+        const user = await User.create({name,email,password:hashPassword});
+        res.cookie('user',JSON.stringify({email,name})).redirect('/index');
+    } catch(e) {
+        console.log("Error while doing signup!");
+    }
 })
 export const userRouter = router;

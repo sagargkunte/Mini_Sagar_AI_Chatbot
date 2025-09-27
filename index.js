@@ -8,9 +8,10 @@ import { checkForAuthentication } from "./middlewares/authentications.js";
 import { userRouter } from "./routes/user.js";
 import cookieParser from "cookie-parser";
 import { urlencoded } from "express";
+import connectDB from "./Config/dbConfig.js";
 // import path from "path";
 config();
-
+connectDB();
 const app = express();
 
 const PORT = process.env.PORT || 3000;
