@@ -39,6 +39,7 @@ app.get("/", (req, res) => {
 
 app.use("/ai", router);
 
+
 app.use('/user',userRouter);
 
 server.listen(PORT, () => {

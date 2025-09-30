@@ -10,15 +10,20 @@ router.post('/login',async (req,res) => {
     try {
         const user = await User.findOne({email});
         let hashedPass = user.password;
-        const res = bcrypt.compare(password,hashedPass);
-        if(!res) {
-            res.send("Invalid Email or Password");
+        const result = await bcrypt.compare(password,hashedPass);
+        console.log(result);
+        if(!result) {
+            return res.send("Invalid Email or Password");
         }
-        console.log(userDetails);
-        return res.redirect('index');
+        const name = user.name;
+        const email = user.email;
+        // console.log(userDetails);
+        // return res.status(200).json({ success: true, redirectUrl: "/sagar" });
+        res.cookie('user',JSON.stringify({email,name})).redirect('/');
+
     } catch (e) {
         console.log(e);
-        res.status(400).send('Internal Server error!');
+        return res.status(400).send('Internal Server error!');
     }
 })
 
@@ -38,7 +43,8 @@ router.post('/signup',async (req,res) => {
     console.log(name,email,password,hashPassword);
     try {
         const user = await User.create({name,email,password:hashPassword});
-        res.cookie('user',JSON.stringify({email,name})).redirect('/index');
+        console.log(user);
+        res.cookie('user',JSON.stringify({email,name})).redirect('/sagar');
     } catch(e) {
         console.log("Error while doing signup!");
     }
