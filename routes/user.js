@@ -1,13 +1,14 @@
 import { Router } from "express";
 import { User } from "../models/user.js";
 import bcrypt from "bcryptjs";
+import {createTokenForUser} from '../services/authentication.js'
 
 const router = Router();
 
 router.post('/login',async (req,res) => {
     console.log(req.body);
-    const {email,password} = req.body;
     try {
+        const {email,password} = req.body;
         const user = await User.findOne({email});
         let hashedPass = user.password;
         const result = await bcrypt.compare(password,hashedPass);
@@ -15,11 +16,13 @@ router.post('/login',async (req,res) => {
         if(!result) {
             return res.send("Invalid Email or Password");
         }
-        const name = user.name;
-        const email = user.email;
+        // const Name = user.name;
+        // const Email = user.email;
+
         // console.log(userDetails);
         // return res.status(200).json({ success: true, redirectUrl: "/sagar" });
-        res.cookie('user',JSON.stringify({email,name})).redirect('/');
+        const token = createTokenForUser(user);
+        res.cookie('user',token).redirect(`${process.env.CLIENT_URL}/`);
 
     } catch (e) {
         console.log(e);

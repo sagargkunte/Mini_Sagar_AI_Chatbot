@@ -20,9 +20,9 @@ const io = new Server(server);
 
 app.set('view engine','ejs');
 app.use(express.json());
-app.use(urlencoded({extended:true}));
 app.use(cookieParser());
-app.use(checkForAuthentication('token'));
+app.use(urlencoded({extended:true}));
+app.use(checkForAuthentication('user'));
 
 io.on("connection", (socket) => {
   socket.on("userMsg", async (msg) => {
