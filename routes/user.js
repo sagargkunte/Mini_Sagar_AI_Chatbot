@@ -16,13 +16,10 @@ router.post('/login',async (req,res) => {
         if(!result) {
             return res.send("Invalid Email or Password");
         }
-        // const Name = user.name;
-        // const Email = user.email;
-
         // console.log(userDetails);
         // return res.status(200).json({ success: true, redirectUrl: "/sagar" });
         const token = createTokenForUser(user);
-        res.cookie('user',token).redirect(`${process.env.CLIENT_URL}/`);
+        res.cookie('user',token).redirect(`/`);
 
     } catch (e) {
         console.log(e);
@@ -47,9 +44,10 @@ router.post('/signup',async (req,res) => {
     try {
         const user = await User.create({name,email,password:hashPassword});
         console.log(user);
-        res.cookie('user',JSON.stringify({email,name})).redirect('/sagar');
+        res.cookie('user',createTokenForUser(user)).redirect('/');
     } catch(e) {
         console.log("Error while doing signup!");
     }
+    
 })
 export const userRouter = router;
