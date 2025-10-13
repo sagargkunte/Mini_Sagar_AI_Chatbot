@@ -2,6 +2,7 @@ import { Router } from "express";
 import { User } from "../models/user.js";
 import bcrypt from "bcryptjs";
 import {createTokenForUser} from '../services/authentication.js'
+import passport from "../services/googleAuth.js";
 
 const router = Router();
 
@@ -48,6 +49,17 @@ router.post('/signup',async (req,res) => {
     } catch(e) {
         console.log("Error while doing signup!");
     }
-    
 })
+
+
+router.get("/auth/google",
+    passport.authenticate("google",{scope: ["profile","email"],session:false})
+)
+
+router.get("/auth/google/callback",
+    passport.authenticate("google",{session:false,failureRedirect:"user/login"}),
+    (req,res) => {
+        res.cookie("user",req,user, {httpOnly:true}).redirect("/");
+    }
+)
 export const userRouter = router;
