@@ -3,6 +3,8 @@ import { User } from "../models/user.js";
 import bcrypt from "bcryptjs";
 import {createTokenForUser} from '../services/authentication.js'
 import passport from "../services/googleAuth.js";
+import { config } from "dotenv";
+config();
 
 const router = Router();
 
@@ -59,7 +61,7 @@ router.get("/auth/google",
 router.get("/auth/google/callback",
     passport.authenticate("google",{session:false,failureRedirect:"user/login"}),
     (req,res) => {
-        res.cookie("user",req,user, {httpOnly:true}).redirect("/");
+        res.cookie("user",req.user, {httpOnly:true}).redirect("/");
     }
 )
 export const userRouter = router;

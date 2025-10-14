@@ -2,7 +2,7 @@ import { validateToken } from "../services/authentication.js";
 
 export function checkForAuthentication(cookieName) {
     return (req,res,next) => {
-        const publicRoute =  ["/user/login","/user/signup"]
+        const publicRoute =  ["/user/login","/user/signup","/user/auth/google","/user/auth/google/callback"]
         if(publicRoute.includes(req.path)) {
             return next();
         }
