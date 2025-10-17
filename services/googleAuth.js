@@ -16,7 +16,7 @@ async (accessToken,refreshToken,profile,done) => {
     // console.log(profile["emails"].value);
         try {
             let google_email = profile.emails[0].value;
-            const user = await User.findOne({email: google_email});
+            let user = await User.findOne({email: google_email});
             if(!user) {
                 user = await User.create({
                     name:profile.displayName,
