@@ -3,17 +3,83 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    
+    <title>Sagar AI</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .input-area {
+        position: relative;
+        bottom: 0;
+        background: #fff;
+        padding: 1rem;
+        top: 30rem;
+        left: 5rem;;
+      }
+      .row {
+        box-shadow: #ccc;
+      }
+
+      input {
+        border-radius: 10px 0 0 10px;
+        height: 3rem;
+        border: none;
+        box-shadow: 0px 0px 500px 1px black;
+      }
+
+      input:active {
+       border: none;
+      }
+      .col-1 {
+        border-radius: 0px 10px 10px 0px;
+        font-size: 0.9rem;
+        border: none;
+        background: white;
+        color: black;
+      }
+
+      p .user {
+        text-align: left;
+        
+      }
+
+      p .user {
+        text-align: right;
+      }
+    </style>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+     <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body>
     <div id="messages"></div>
 
-    <div class="input-area">
-      <input type="text" id="msg" placeholder="Enter your Question here..." />
-      <button id="sendBtn">Send</button>
+    <div class="input-area container center">
+      <div class="row">
+        <input
+          type="text"
+          id="msg"
+          placeholder="Enter your Question here..."
+          class="col-8"
+        />
+        <button id="sendBtn" class="col-1">
+          <i class="fa-solid fa-arrow-up"></i>
+        </button>
+        
+      </div>
     </div>
-
   </body>
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -23,7 +89,6 @@
     const sendBtn = document.getElementById("sendBtn");
     const messages = document.getElementById("messages");
     const msg = document.getElementById("msg");
-
     sendBtn.addEventListener("click", () => {
       const message = msg.value.trim();
       const p = document.createElement("p");
