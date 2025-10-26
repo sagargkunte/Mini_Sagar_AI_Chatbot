@@ -3,7 +3,7 @@ import router from "./routes/ai.sagar.js";
 import { config } from "dotenv";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import { geminiAi } from "./services/ai.gemini.js";
+import { AI } from "./services/ai.js";
 import { checkForAuthentication } from "./middlewares/authentications.js";
 import { userRouter } from "./routes/user.js";
 import cookieParser from "cookie-parser";
@@ -26,7 +26,7 @@ app.use(checkForAuthentication('user'));
 
 io.on("connection", (socket) => {
   socket.on("userMsg", async (msg) => {
-    const aiReplay = await geminiAi(msg);
+    const aiReplay = await AI(msg);
     // console.log(aiReplay);
     socket.emit('aiReplay',aiReplay);
   });
