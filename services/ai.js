@@ -1,6 +1,6 @@
-import { config } from 'dotenv';
+import { config } from "dotenv";
 config();
-import OpenAI from 'openai';
+import OpenAI from "openai";
 const openai = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
   apiKey: process.env.OPEN_ROUTER,
@@ -14,11 +14,10 @@ async function main(prompt) {
     model: "tngtech/deepseek-r1t2-chimera:free",
     messages: [
       {
-        "role": "user",
-        "content": prompt
-      }
+        role: "user",
+        content: prompt,
+      },
     ],
-    
   });
 
   // console.log(completion.choices[0].message);
