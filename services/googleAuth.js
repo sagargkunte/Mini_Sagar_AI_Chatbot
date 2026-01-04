@@ -1,7 +1,6 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { createTokenForUser } from "../services/authentication.js";
-// import jwt from 'jsonwebtoken'
 import { User } from "../models/user.js";
 import { config } from "dotenv";
 config();
@@ -41,4 +40,4 @@ passport.use(
   ),
 );
 
-export default passport;
+export const googlePassport = passport;

@@ -7,6 +7,8 @@ export function checkForAuthentication(cookieName) {
       "/user/signup",
       "/user/auth/google",
       "/user/auth/google/callback",
+      "/user/auth/github",
+      "/user/auth/github/callback",
     ];
     if (publicRoute.includes(req.path)) {
       return next();

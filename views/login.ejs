@@ -320,6 +320,11 @@
             <span>Continue with Google</span>
           </div>
 
+          <div class="btn-google" onclick="GithubAuth()">
+            <i class="fab fa-github"></i>
+            <span>Continue with Github</span>
+          </div>
+
           <div class="signup-link">
             Don't have an account?
             <a href="http://localhost:3001/user/signup">Sign up here</a>
@@ -332,6 +337,10 @@
     <script>
       function GoogleAuth() {
         window.location.href="http://localhost:3001/user/auth/google"
+      }
+
+      function GithubAuth() {
+        window.location.href="http://localhost:3001/user/auth/github"
       }
     </script>
   </body>
