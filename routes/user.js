@@ -74,10 +74,7 @@ router.get(
 
 router.get(
   "/auth/github",
-  githubPassport.authenticate("github", {
-    scope: ["user:email"],
-    session: false,
-  })
+  githubPassport.authenticate("github", { scope: ["user:email"], session: false })
 );
 
 router.get(

@@ -14,18 +14,46 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        const user = await User.findOne({ email: profile.emails[0].value });
-        if (user) {
-          return done(null, user);
+        let githubEmail = profile.emails?.[0]?.value;
+
+        if (!githubEmail) {
+          const gitRes = await fetch("https://api.github.com/user/emails", {
+            headers: {
+              Authorization: `token ${accessToken}`,
+              Accept: "application/vnd.github+json",
+            },
+          });
+
+          if (!gitRes.ok) {
+            return done(new Error("Failed to fetch emails from GitHub"));
+          }
+
+          const emails = await gitRes.json();
+          const primaryEmailObj = emails.find(
+            (e) => e.primary && e.verified
+          );
+
+          if (!primaryEmailObj) {
+            return done(new Error("No primary email found"));
+          }
+
+          githubEmail = primaryEmailObj.email;
         }
-        const newUser = await User.create({
-          name: profile.displayName,
-          email: profile.emails[0].value,
-        });
 
-        const token = createTokenForUser(newUser);
+        let user = await User.findOne({ email: githubEmail });
 
+        if (!user) {
+          user = await User.create({
+            name: profile.displayName || profile.username,
+            email: githubEmail,
+            login: "Github"
+          });
+        }
+
+
+        const token = createTokenForUser(user);
         return done(null, token);
+
       } catch (error) {
         return done(error);
       }
@@ -33,4 +61,5 @@ passport.use(
   )
 );
 
-export const githubPassport =  passport;
+
+export const githubPassport = passport;

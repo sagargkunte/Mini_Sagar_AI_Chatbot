@@ -24,7 +24,7 @@
 
       body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
         min-height: 100vh;
         display: flex;
         align-items: center;
@@ -32,29 +32,6 @@
         padding: 2rem;
         position: relative;
         overflow-x: hidden;
-      }
-
-      body::before {
-        content: '';
-        position: fixed;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: 
-          radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-        animation: gradientMove 20s ease infinite;
-      }
-
-      @keyframes gradientMove {
-        0%, 100% {
-          transform: translate(0, 0);
-        }
-        50% {
-          transform: translate(50px, 50px);
-        }
       }
 
       .login-wrapper {
@@ -315,15 +292,18 @@
 
           <div class="divider">OR</div>
 
-          <div class="btn-google" onclick="GoogleAuth()">
+          <div style="display: flex;">
+            <div class="btn-google" style="width: 50%;" onclick="GoogleAuth()">
             <i class="fab fa-google"></i>
-            <span>Continue with Google</span>
+            <span>Google</span>
           </div>
 
-          <div class="btn-google" onclick="GithubAuth()">
+          <div class="btn-google" style="width: 50%;" onclick="GithubAuth()">
             <i class="fab fa-github"></i>
-            <span>Continue with Github</span>
+            <span>Github</span>
           </div>
+          </div>
+          
 
           <div class="signup-link">
             Don't have an account?

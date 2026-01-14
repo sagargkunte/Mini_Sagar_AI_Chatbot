@@ -21,14 +21,9 @@ passport.use(
           user = await User.create({
             name: profile.displayName,
             email: google_email,
+            login: "Google"
           });
         }
-
-        // const token = jwt.sign({
-        //     id: user._id,
-        //     name: user.name,
-        //     email: user.email
-        // },{expiresIn: "1d"});
 
         const token = createTokenForUser(user);
 
