@@ -9,7 +9,9 @@ import { userRouter } from "./routes/user.js";
 import cookieParser from "cookie-parser";
 import { urlencoded } from "express";
 import connectDB from "./Config/dbConfig.js";
-// import path from "path";
+import passport from "passport";
+import { skipRouter } from "./routes/skip.js";
+
 config();
 connectDB();
 const app = express();
@@ -19,10 +21,12 @@ const server = createServer(app);
 const io = new Server(server);
 
 app.set("view engine", "ejs");
+app.use(passport.initialize());
 app.use(express.json());
 app.use(cookieParser());
 app.use(urlencoded({ extended: true }));
 app.use(checkForAuthentication("user"));
+app.use("/skip",skipRouter);
 
 io.on("connection", (socket) => {
   socket.on("userMsg", async (msg) => {
@@ -40,6 +44,7 @@ app.get("/", (req, res) => {
 app.use("/ai", router);
 
 app.use("/user", userRouter);
+
 
 server.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
     "start": "nodemon index.js",
     "dev": "nodemon index.js",
     "format": "prettier --write ."
@@ -27,11 +28,12 @@
     "mysql2": "^3.14.5",
     "openai": "^6.7.0",
     "passport": "^0.7.0",
+    "passport-github2": "^0.1.12",
     "passport-google-oauth20": "^2.0.0",
-    "prettier": "^3.7.4",
     "socket.io": "^4.8.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "prettier": "^3.7.4"
   }
 }

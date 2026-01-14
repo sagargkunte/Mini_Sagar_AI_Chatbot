@@ -2,7 +2,8 @@ import { Router } from "express";
 import { User } from "../models/user.js";
 import bcrypt from "bcryptjs";
 import { createTokenForUser } from "../services/authentication.js";
-import passport from "../services/googleAuth.js";
+import { googlePassport } from "../services/googleAuth.js";
+import { githubPassport } from "../services/githubAuth.js";
 import { config } from "dotenv";
 config();
 
@@ -54,20 +55,37 @@ router.post("/signup", async (req, res) => {
 
 router.get(
   "/auth/google",
-  passport.authenticate("google", {
+  googlePassport.authenticate("google", {
     scope: ["profile", "email"],
     session: false,
-  }),
+  })
 );
 
 router.get(
   "/auth/google/callback",
-  passport.authenticate("google", {
+  googlePassport.authenticate("google", {
     session: false,
     failureRedirect: "user/login",
   }),
   (req, res) => {
     res.cookie("user", req.user, { httpOnly: true }).redirect("/");
-  },
+  }
 );
+
+router.get(
+  "/auth/github",
+  githubPassport.authenticate("github", { scope: ["user:email"], session: false })
+);
+
+router.get(
+  "/auth/github/callback",
+  githubPassport.authenticate("github", {
+    session: false,
+    failureRedirect: "/user/login",
+  }),
+  (req, res) => {
+    res.cookie("user", req.user, { httpOnly: true }).redirect("/");
+  }
+);
+
 export const userRouter = router;
