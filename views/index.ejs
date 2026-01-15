@@ -273,23 +273,18 @@
         padding: 1rem 1.5rem 1.5rem;
         background: #fff;
         border-top: 1px solid #e5e5e5;
+        /* border-radius: 20%; */
       }
 
       .input-wrapper {
         display: flex;
         gap: 0.5rem;
         align-items: flex-end;
-        background: #f5f5f5;
-        border-radius: 12px;
+        border-radius: 30px;
         padding: 0.625rem 1rem;
         border: 1px solid #e5e5e5;
         transition: all 0.15s ease;
-      }
-
-      .input-wrapper:focus-within {
-        background: #fff;
-        border-color: #c47c4a;
-        box-shadow: 0 0 0 3px rgba(196, 124, 74, 0.1);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
       }
 
       #msg {
@@ -310,12 +305,12 @@
       }
 
       #sendBtn {
-        background: #c47c4a;
+        background: black;
         color: white;
         border: none;
         width: 36px;
         height: 36px;
-        border-radius: 8px;
+        border-radius: 50%;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -326,7 +321,8 @@
       }
 
       #sendBtn:hover {
-        background: #b36d3d;
+        /* background: #b36d3d; */
+        opacity: 0.9;
       }
 
       #sendBtn:active {
@@ -474,7 +470,7 @@
             autocomplete="off"
           />
           <button id="sendBtn">
-            <i class="fas fa-paper-plane"></i>
+            <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
       </div>
