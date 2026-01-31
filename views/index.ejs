@@ -429,6 +429,26 @@
           font-size: 0.875rem;
         }
       }
+
+      #mic {
+        background: black;
+        color: white;
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.15s ease;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+      }
+
+      #mic.active {
+        background: #c47c4a;
+      }
     </style>
   </head>
   <body>
@@ -469,6 +489,9 @@
             placeholder="Type your message here..."
             autocomplete="off"
           />
+          <button id="mic">
+            <i class="fa-solid fa-microphone"></i>
+          </button>
           <button id="sendBtn">
             <i class="fa-solid fa-arrow-right"></i>
           </button>
@@ -541,7 +564,10 @@
         msg.value = "";
 
         typingIndicator.classList.add("active");
-        socket.emit("userMsg", message);
+        socket.emit("userMsg", {
+          text: message,
+          source: "text"
+        });
       }
 
       sendBtn.addEventListener("click", sendMessage);
@@ -559,6 +585,76 @@
 
       // Update empty state on page load
       updateEmptyState();
+
+      const micBtn = document.getElementById("mic");
+
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+      let recognition;
+      let isListening = false;
+
+      if (SpeechRecognition) {
+        recognition = new SpeechRecognition()
+        recognition.lang = "en-US";
+        recognition.innerimResults = false;
+        recognition.continuous = false;
+      } else {
+        micBtn.disable = true;
+        console.log("Speech Recognition is not supported");
+      }
+
+      micBtn.addEventListener("click", () => {
+        if (!recognition) return;
+
+        if (!isListening) {
+          recognition.start();
+          isListening = true;
+          micBtn.classList.add("active");
+          micBtn.innerHTML = `<i class="fa-solid fa-microphone-lines"></i>`;
+        }
+      });
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript.trim();
+
+        if (!transcript) return;
+
+        // Show as user message
+        addMessage(transcript, true);
+
+        typingIndicator.classList.add("active");
+
+        // Send to your existing socket flow
+        socket.emit("userMsg", {
+          text: transcript,
+          source: "voice"
+        });
+      }; 
+
+      /* ===============================
+   SPEECH END
+================================ */
+
+      recognition.onspeechend = () => {
+        recognition.stop();
+      };
+
+      /* ===============================
+   CLEANUP
+================================ */
+
+      recognition.onend = () => {
+        isListening = false;
+        micBtn.classList.remove("active");
+        micBtn.innerHTML = `<i class="fa-solid fa-microphone"></i>`;
+      };
+
+      recognition.onerror = (e) => {
+        console.error("Speech error:", e.error);
+        isListening = false;
+        micBtn.classList.remove("active");
+        micBtn.innerHTML = `<i class="fa-solid fa-microphone"></i>`;
+      };
     </script>
   </body>
 </html>

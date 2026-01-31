@@ -26,13 +26,26 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(urlencoded({ extended: true }));
 app.use(checkForAuthentication("user"));
-app.use("/skip",skipRouter);
+app.use("/skip", skipRouter);
 
 io.on("connection", (socket) => {
   socket.on("userMsg", async (msg) => {
-    const aiReplay = await AI(msg);
+    try {
+      console.log(msg);
+      const { text, source } = msg;
+    if (source == "voice") {
+      console.log("This is voice text ", text);
+    }
+    if (source == "text") {
+      console.log("This is message text ", text);
+    }
+    const aiReplay = await AI(text);
+
     // console.log(aiReplay);
     socket.emit("aiReplay", aiReplay);
+    } catch (e) {
+      console.log("This is error inside the socket user message")
+    }
   });
 });
 
@@ -44,7 +57,6 @@ app.get("/", (req, res) => {
 app.use("/ai", router);
 
 app.use("/user", userRouter);
-
 
 server.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
