@@ -273,23 +273,18 @@
         padding: 1rem 1.5rem 1.5rem;
         background: #fff;
         border-top: 1px solid #e5e5e5;
+        /* border-radius: 20%; */
       }
 
       .input-wrapper {
         display: flex;
         gap: 0.5rem;
         align-items: flex-end;
-        background: #f5f5f5;
-        border-radius: 12px;
+        border-radius: 30px;
         padding: 0.625rem 1rem;
         border: 1px solid #e5e5e5;
         transition: all 0.15s ease;
-      }
-
-      .input-wrapper:focus-within {
-        background: #fff;
-        border-color: #c47c4a;
-        box-shadow: 0 0 0 3px rgba(196, 124, 74, 0.1);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
       }
 
       #msg {
@@ -310,12 +305,12 @@
       }
 
       #sendBtn {
-        background: #c47c4a;
+        background: black;
         color: white;
         border: none;
         width: 36px;
         height: 36px;
-        border-radius: 8px;
+        border-radius: 50%;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -326,7 +321,8 @@
       }
 
       #sendBtn:hover {
-        background: #b36d3d;
+        /* background: #b36d3d; */
+        opacity: 0.9;
       }
 
       #sendBtn:active {
@@ -433,6 +429,26 @@
           font-size: 0.875rem;
         }
       }
+
+      #mic {
+        background: black;
+        color: white;
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.15s ease;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+      }
+
+      #mic.active {
+        background: #c47c4a;
+      }
     </style>
   </head>
   <body>
@@ -473,8 +489,11 @@
             placeholder="Type your message here..."
             autocomplete="off"
           />
+          <button id="mic">
+            <i class="fa-solid fa-microphone"></i>
+          </button>
           <button id="sendBtn">
-            <i class="fas fa-paper-plane"></i>
+            <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
       </div>
@@ -545,7 +564,10 @@
         msg.value = "";
 
         typingIndicator.classList.add("active");
-        socket.emit("userMsg", message);
+        socket.emit("userMsg", {
+          text: message,
+          source: "text"
+        });
       }
 
       sendBtn.addEventListener("click", sendMessage);
@@ -563,6 +585,76 @@
 
       // Update empty state on page load
       updateEmptyState();
+
+      const micBtn = document.getElementById("mic");
+
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+      let recognition;
+      let isListening = false;
+
+      if (SpeechRecognition) {
+        recognition = new SpeechRecognition()
+        recognition.lang = "en-US";
+        recognition.innerimResults = false;
+        recognition.continuous = false;
+      } else {
+        micBtn.disable = true;
+        console.log("Speech Recognition is not supported");
+      }
+
+      micBtn.addEventListener("click", () => {
+        if (!recognition) return;
+
+        if (!isListening) {
+          recognition.start();
+          isListening = true;
+          micBtn.classList.add("active");
+          micBtn.innerHTML = `<i class="fa-solid fa-microphone-lines"></i>`;
+        }
+      });
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript.trim();
+
+        if (!transcript) return;
+
+        // Show as user message
+        addMessage(transcript, true);
+
+        typingIndicator.classList.add("active");
+
+        // Send to your existing socket flow
+        socket.emit("userMsg", {
+          text: transcript,
+          source: "voice"
+        });
+      }; 
+
+      /* ===============================
+   SPEECH END
+================================ */
+
+      recognition.onspeechend = () => {
+        recognition.stop();
+      };
+
+      /* ===============================
+   CLEANUP
+================================ */
+
+      recognition.onend = () => {
+        isListening = false;
+        micBtn.classList.remove("active");
+        micBtn.innerHTML = `<i class="fa-solid fa-microphone"></i>`;
+      };
+
+      recognition.onerror = (e) => {
+        console.error("Speech error:", e.error);
+        isListening = false;
+        micBtn.classList.remove("active");
+        micBtn.innerHTML = `<i class="fa-solid fa-microphone"></i>`;
+      };
     </script>
   </body>
 </html>
