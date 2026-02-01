@@ -11,6 +11,7 @@ import { urlencoded } from "express";
 import connectDB from "./Config/dbConfig.js";
 import passport from "passport";
 import { skipRouter } from "./routes/skip.js";
+import apminsight from 'apminsight';
 
 config();
 connectDB();

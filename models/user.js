@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       required: function () {
-        return this.role != "Guest";
+        return this.role != "guest";
       },
     },
     email: {
@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema(
     },
     login: {
       type: String,
-      enum: ["mmnual","google","github"],
+      enum: ["manual","google","github"],
       default: "manual",
     },
     role: {
