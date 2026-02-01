@@ -46,7 +46,8 @@ passport.use(
           user = await User.create({
             name: profile.displayName || profile.username,
             email: githubEmail,
-            login: "Github"
+            login: "github",
+            role: "user"
           });
         }
 

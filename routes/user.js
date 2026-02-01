@@ -45,7 +45,7 @@ router.post("/signup", async (req, res) => {
   const hashPassword = await bcrypt.hash(password, salt);
   console.log(name, email, password, hashPassword);
   try {
-    const user = await User.create({ name, email, password: hashPassword });
+    const user = await User.create({ name, email, password: hashPassword,role:"user",login:"manual" });
     console.log(user);
     res.cookie("user", createTokenForUser(user)).redirect("/");
   } catch (e) {
