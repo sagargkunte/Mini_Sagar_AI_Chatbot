@@ -15,6 +15,7 @@
   "description": "",
   "dependencies": {
     "@google/genai": "^1.16.0",
+    "@openrouter/sdk": "^0.10.2",
     "apminsight": "^5.2.1",
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.7.0",

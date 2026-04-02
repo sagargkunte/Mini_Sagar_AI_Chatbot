@@ -42,7 +42,7 @@ io.on("connection", (socket) => {
     }
     const aiReplay = await AI(text);
 
-    // console.log(aiReplay);
+    console.log(aiReplay);
     socket.emit("aiReplay", aiReplay);
     } catch (e) {
       console.log("This is error inside the socket user message")
