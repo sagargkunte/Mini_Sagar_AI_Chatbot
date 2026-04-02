@@ -21,7 +21,7 @@ def home():
 async def generate_voice(text: str):
     print("User input text:", text)
     reference_audio_path = "my_voice.wav"  # your voice sample
-    speech = tts(text, voice=reference_audio_path)
+    speech = tts(text)
 
     # Save to unique file
     filename = f"output_{uuid.uuid4().hex}.wav"

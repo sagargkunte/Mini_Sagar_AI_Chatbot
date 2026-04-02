@@ -486,7 +486,7 @@
         </button>
       </div>
     </div>
-
+    
     <div class="chat-container">
       <div class="empty-state" id="emptyState">
         <i class="fas fa-comments"></i>
@@ -526,6 +526,21 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <script>
+
+
+function speak(text) {
+  // const text = "Hello Sagar, this is text to speech!";
+  const speech = new SpeechSynthesisUtterance(text);
+
+  speech.lang = "en-US";
+  speech.rate = 1;
+  speech.pitch = 1;
+
+  window.speechSynthesis.speak(speech);
+}
+
+
+
       const socket = io();
       const sendBtn = document.getElementById("sendBtn");
       const messages = document.getElementById("messages");
@@ -562,8 +577,11 @@
         messageContent.classList.add("message-content");
 
         if (isUser) {
+          
           messageContent.innerText = content;
-        } else {
+          
+        } else {  
+          speak(content);
           messageContent.innerHTML = marked.parse(content);
         }
 
