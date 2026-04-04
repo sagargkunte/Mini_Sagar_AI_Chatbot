@@ -12,6 +12,7 @@ import connectDB from "./Config/dbConfig.js";
 import passport from "passport";
 import { skipRouter } from "./routes/skip.js";
 import apminsight from 'apminsight';
+import { initVectorStore } from "./RAG/rag.js";
 
 config();
 connectDB();
@@ -59,6 +60,7 @@ app.use("/ai", router);
 
 app.use("/user", userRouter);
 
-server.listen(PORT, () => {
+server.listen(PORT, async () => {
+  await initVectorStore();
   console.log(`Server is running at http://localhost:${PORT}`);
 });
