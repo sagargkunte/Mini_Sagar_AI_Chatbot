@@ -15,7 +15,14 @@
   "description": "",
   "dependencies": {
     "@google/genai": "^1.16.0",
+    "@huggingface/inference": "^4.13.15",
+    "@huggingface/transformers": "^4.0.1",
+    "@langchain/community": "^1.1.27",
+    "@langchain/core": "^1.1.38",
+    "@langchain/qdrant": "^1.0.1",
     "@openrouter/sdk": "^0.10.2",
+    "@qdrant/js-client-rest": "^1.17.0",
+    "@xenova/transformers": "^2.17.2",
     "apminsight": "^5.2.1",
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.7.0",
@@ -24,6 +31,7 @@
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
+    "langchain": "^1.2.39",
     "mongoose": "^8.18.1",
     "multer": "^2.0.2",
     "mysql2": "^3.14.5",
@@ -31,6 +39,7 @@
     "passport": "^0.7.0",
     "passport-github2": "^0.1.12",
     "passport-google-oauth20": "^2.0.0",
+    "pdf-parse": "^1.1.1",
     "socket.io": "^4.8.1"
   },
   "devDependencies": {
