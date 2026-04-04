@@ -11,8 +11,8 @@ import { urlencoded } from "express";
 import connectDB from "./Config/dbConfig.js";
 import passport from "passport";
 import { skipRouter } from "./routes/skip.js";
-import apminsight from 'apminsight';
-import { initVectorStore } from "./RAG/rag.js";
+import apminsight from "apminsight";
+import { initVectorStore, seedVectorStore } from "./RAG/rag.js";
 
 config();
 connectDB();
@@ -21,6 +21,19 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const server = createServer(app);
 const io = new Server(server);
+
+// Initialize RAG vector store on app startup
+(async () => {
+  try {
+    await initVectorStore();
+    await seedVectorStore(); // Uncomment if you need to seed the vector store
+    console.log("✅ RAG Vector Store initialized successfully");
+  } catch (error) {
+    console.error("❌ Failed to initialize RAG Vector Store:", error);
+    // Note: Uncomment the line below if you need to seed first
+    // await seedVectorStore();
+  }
+})();
 
 app.set("view engine", "ejs");
 app.use(passport.initialize());
@@ -35,18 +48,18 @@ io.on("connection", (socket) => {
     try {
       console.log(msg);
       const { text, source } = msg;
-    if (source == "voice") {
-      console.log("This is voice text ", text);
-    }
-    if (source == "text") {
-      console.log("This is message text ", text);
-    }
-    const aiReplay = await AI(text);
+      if (source == "voice") {
+        console.log("This is voice text ", text);
+      }
+      if (source == "text") {
+        console.log("This is message text ", text);
+      }
+      const aiReplay = await AI(text);
 
-    console.log(aiReplay);
-    socket.emit("aiReplay", aiReplay);
+      console.log(aiReplay);
+      socket.emit("aiReplay", aiReplay);
     } catch (e) {
-      console.log("This is error inside the socket user message")
+      console.log("This is error inside the socket user message");
     }
   });
 });
@@ -60,7 +73,6 @@ app.use("/ai", router);
 
 app.use("/user", userRouter);
 
-server.listen(PORT, async () => {
-  await initVectorStore();
+server.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });

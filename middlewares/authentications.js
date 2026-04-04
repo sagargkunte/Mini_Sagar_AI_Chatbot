@@ -10,6 +10,7 @@ export function checkForAuthentication(cookieName) {
       "/user/auth/github",
       "/user/auth/github/callback",
       "/skip",
+      "/ai/aiSagar"
     ];
     if (publicRoute.includes(req.path)) {
       return next();
