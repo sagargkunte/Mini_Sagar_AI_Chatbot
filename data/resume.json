@@ -1,0 +1,134 @@
+{
+  "personalInfo": {
+    "name": "Sagar G. Kunte",
+    "title": "Full Stack Developer & AI Enthusiast",
+    "email": "developersagar24@gmail.com",
+    "location": "India",
+    "summary": "Passionate full-stack developer with expertise in AI/ML, web development, and cloud technologies. Experienced in building scalable applications with modern tech stacks.",
+    "socialLinks": {
+      "github": "https://github.com/sagargkunte",
+      "linkedin": "https://linkedin.com/in/sagargkunte",
+      "twitter": "https://twitter.com/sagargkunte",
+      "portfolio": "https://sagargkunte.dev",
+      "email": "developersagar24@gmail.com",
+      "leetcode": "https://leetcode.com/sagar_g_kunte",
+    "codeforces": "https://codeforces.com/profile/sagargkunte2005"
+    }
+  },
+  "experience": [
+    {
+      "role": "Full Stack Developer",
+      "company": "AI Chatbot Development",
+      "duration": "2023 - 2027",
+      "description": "Developing AI-powered chatbot applications using Node.js and machine learning frameworks",
+      "skills": [
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "Socket.io",
+        "AI/ML",
+        "LangChain",
+        "Cerebras API"
+      ]
+    },
+    {
+      "role": "Web Developer",
+      "company": "Various Projects",
+      "duration": "2023 - 2024",
+      "description": "Built responsive web applications and implemented real-time communication features",
+      "skills": [
+        "React",
+        "Express",
+        "MongoDB",
+        "EJS",
+        "Authentication",
+        "REST APIs"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Degree/Certification",
+      "institution": "Education Background",
+      "field": "Computer Science / Information Technology",
+      "duration": "4 years"
+    }
+  ],
+  "skills": {
+    "languages": ["JavaScript", "Python", "HTML", "CSS", "SQL"],
+    "frontend": ["React", "EJS", "CSS3", "Socket.io Client"],
+    "backend": [
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "Mongoose",
+      "REST APIs",
+      "Passport.js"
+    ],
+    "aiMl": [
+      "LangChain",
+      "Cerebras API",
+      "RAG Systems",
+      "Vector Embeddings",
+      "Qdrant",
+      "Transformers"
+    ],
+    "tools": ["Docker", "Git", "VS Code", "MongoDB Atlas", "Postman"],
+    "other": [
+      "Real-time Communication",
+      "Authentication",
+      "Authorization",
+      "Socket.io",
+      "Vector Databases"
+    ]
+  },
+  "projects": [
+    {
+      "name": "Mini Sagar AI Chatbot",
+      "description": "An AI-powered chatbot persona that responds as Sagar G. Kunte with resume information",
+      "technologies": [
+        "Node.js",
+        "Express",
+        "Socket.io",
+        "MongoDB",
+        "Cerebras AI",
+        "LangChain",
+        "Qdrant",
+        "Vector Embeddings"
+      ],
+      "features": [
+        "Real-time chat",
+        "Resume Q&A",
+        "RAG Integration",
+        "OAuth Authentication",
+        "Voice Support",
+        "Docker Ready"
+      ],
+      "highlights": "Built with multi-service architecture, featuring RAG for intelligent context retrieval and Cerebras API for powerful AI responses"
+    },
+    {
+      "name": "Real-Time Chat Application",
+      "description": "Full-featured chat application with authentication and real-time messaging",
+      "technologies": ["Node.js", "Express", "Socket.io", "MongoDB", "EJS"],
+      "features": [
+        "Real-time messaging",
+        "User authentication",
+        "JWT tokens",
+        "Responsive UI"
+      ]
+    }
+  ],
+  "certifications": [
+    "Full Stack Web Development",
+    "AI & Machine Learning Fundamentals",
+    "Docker & Containerization"
+  ],
+  "languages": ["English", "Hindi"],
+  "interests": [
+    "Artificial Intelligence",
+    "Machine Learning",
+    "Open Source Development",
+    "Web Development",
+    "Cloud Technologies"
+  ]
+}

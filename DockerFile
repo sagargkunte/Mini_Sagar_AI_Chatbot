@@ -1,20 +1,43 @@
-# Use the official Node.js 18 Alpine image as the base
-FROM node:18-alpine
+# ===== Build Stage =====
+FROM node:18-alpine as builder
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json (if available)
+# Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install
+# Install production dependencies
+RUN npm ci --only=production
 
-# Copy the rest of the application code
+# ===== Runtime Stage =====
+FROM node:18-alpine
+
+# Install dumb-init to handle signals properly
+RUN apk add --no-cache dumb-init
+
+WORKDIR /app
+
+# Copy node modules from builder
+COPY --from=builder /app/node_modules ./node_modules
+
+# Copy application code
 COPY . .
 
-# Expose the port the app runs on (based on logs, likely 3001)
+# Create a non-root user for security
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001
+
+# Change ownership of the app to the nodejs user
+RUN chown -R nodejs:nodejs /app
+
+# Switch to nodejs user
+USER nodejs
+
+# Expose the port
 EXPOSE 3001
 
-# Command to run the application
-CMD ["npm", "start"]
+# Use dumb-init to handle process signals correctly
+ENTRYPOINT ["dumb-init", "--"]
+
+# Start the application
+CMD ["node", "index.js"]

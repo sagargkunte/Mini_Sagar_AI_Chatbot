@@ -13,6 +13,11 @@ import passport from "passport";
 import { skipRouter } from "./routes/skip.js";
 import apminsight from "apminsight";
 import { initVectorStore, seedVectorStore } from "./RAG/rag.js";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 config();
 connectDB();
@@ -25,13 +30,22 @@ const io = new Server(server);
 // Initialize RAG vector store on app startup
 (async () => {
   try {
+    console.log("🚀 Initializing RAG Vector Store...");
     await initVectorStore();
-    await seedVectorStore(); // Uncomment if you need to seed the vector store
     console.log("✅ RAG Vector Store initialized successfully");
-  } catch (error) {
-    console.error("❌ Failed to initialize RAG Vector Store:", error);
-    // Note: Uncomment the line below if you need to seed first
+
+    // Optional: Seed the vector store if needed (run once)
+    // Uncomment the line below if you want to re-seed the vector store
     // await seedVectorStore();
+  } catch (error) {
+    console.error(
+      "⚠️ Note: RAG Vector Store initialization failed:",
+      error.message,
+    );
+    console.log(
+      "💡 This is OK if you haven't set up Qdrant yet. The app will still work!",
+    );
+    // Continue even if RAG fails - the app can still function with basic AI responses
   }
 })();
 
@@ -40,6 +54,7 @@ app.use(passport.initialize());
 app.use(express.json());
 app.use(cookieParser());
 app.use(urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(checkForAuthentication("user"));
 app.use("/skip", skipRouter);
 
