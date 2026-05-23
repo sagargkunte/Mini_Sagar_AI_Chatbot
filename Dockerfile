@@ -1,27 +1,35 @@
 # ===== Build Stage =====
-FROM node:18-alpine as builder
+FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files
 COPY package*.json ./
+
+RUN npm install
+
+COPY . .
 
 # ===== Runtime Stage =====
 FROM node:18-alpine
 
-
 WORKDIR /app
 
-# Copy application code
-COPY . .
+# install only production dependencies
+COPY package*.json ./
+RUN npm install --omit=dev
 
+# copy app from builder
+COPY --from=builder /app /app
 
-# Switch to nodejs user
+# create non-root user (IMPORTANT FIX)
+RUN addgroup -S nodejs && adduser -S nodejs -G nodejs
+
+# fix permissions
+RUN chown -R nodejs:nodejs /app
+
+# switch user safely
 USER nodejs
 
-# Expose the port
 EXPOSE 3001
 
-
-# Start the application
 CMD ["node", "index.js"]
