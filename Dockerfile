@@ -12,9 +12,6 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy node modules from builder
-COPY --from=builder /app/node_modules ./node_modules
-
 # Copy application code
 COPY . .
 
