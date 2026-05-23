@@ -1,0 +1,29 @@
+name: Mini Sagar AI Chatbot CI/CD
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+      - name: login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build docker image
+        run: docker build -t mini-sagar-ai-chatbot:latest .
+      - name: publish image to Docker Hub
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/mini-sagar-ai-chatbot:latest
+
+      
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Pull image from docker hub
+        run: docker pull ${{ secrets.DOCKER_USERNAME }}/mini-sagar-ai-chatbot:latest
+      - name: Run docker container
+        run: docker run -d -p 3001:3001 --name mini-sagar-ai-chatbot -e NODE_ENV=production -e PORT=3001 -e MONGODB_URI=${{secrets.MONGODB_URI}} -e OPEN_ROUTER=${{secrets.OPEN_ROUTER}} -e CLIENT_ID=${{secrets.CLIENT_ID}} -e CLIENT_SECRET=${{secrets.CLIENT_SECRET}} -e GROQ_API_KEY=${{secrets.GROQ_API_KEY}} -e HF_API_KEY=${{secrets.HF_API_KEY}} -e CEREBRAS_API_KEY=${{secrets.CEREBRAS_API_KEY}} ${{ secrets.DOCKER_USERNAME }}/mini-sagar-ai-chatbot:latest
