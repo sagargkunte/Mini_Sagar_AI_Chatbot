@@ -1,10 +1,6 @@
 version: "3.9"
 
 services:
-
-  # =========================
-  # Node.js AI Chatbot
-  # =========================
   nodejs-app:
     build:
       context: .
@@ -30,10 +26,6 @@ services:
 
     networks:
       - app-network
-
-  # =========================
-  # Qdrant Vector Database
-  # =========================
   qdrant:
     image: qdrant/qdrant:latest
 
@@ -50,14 +42,8 @@ services:
     networks:
       - app-network
 
-# =========================
-# Persistent Storage
-# =========================
 volumes:
   qdrant_storage:
 
-# =========================
-# Internal Network
-# =========================
 networks:
   app-network:
