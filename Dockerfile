@@ -1,4 +1,5 @@
-FROM node:18-alpine
+# FIXED: Upgraded to Node 20 to support modern AI/LangChain dependencies natively
+FROM node:20-alpine
 
 WORKDIR /app
 
