@@ -29,9 +29,7 @@ passport.use(
           }
 
           const emails = await gitRes.json();
-          const primaryEmailObj = emails.find(
-            (e) => e.primary && e.verified
-          );
+          const primaryEmailObj = emails.find((e) => e.primary && e.verified);
 
           if (!primaryEmailObj) {
             return done(new Error("No primary email found"));
@@ -47,20 +45,17 @@ passport.use(
             name: profile.displayName || profile.username,
             email: githubEmail,
             login: "github",
-            role: "user"
+            role: "user",
           });
         }
 
-
         const token = createTokenForUser(user);
         return done(null, token);
-
       } catch (error) {
         return done(error);
       }
-    }
-  )
+    },
+  ),
 );
-
 
 export const githubPassport = passport;

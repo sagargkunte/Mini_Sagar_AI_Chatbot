@@ -13,7 +13,6 @@ passport.use(
       callbackURL: process.env.CALL_BACK_URL,
     },
     async (accessToken, refreshToken, profile, done) => {
-      // console.log(profile["emails"].value);
       try {
         let google_email = profile.emails[0].value;
         let user = await User.findOne({ email: google_email });
@@ -22,7 +21,7 @@ passport.use(
             name: profile.displayName,
             email: google_email,
             login: "google",
-            role: "user"
+            role: "user",
           });
         }
 

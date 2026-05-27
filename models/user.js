@@ -23,14 +23,14 @@ const userSchema = new mongoose.Schema(
     },
     login: {
       type: String,
-      enum: ["manual","google","github"],
+      enum: ["manual", "google", "github"],
       default: "manual",
     },
     role: {
       type: String,
-      enum: ["guest","user"],
-      default: "guest"
-    }
+      enum: ["guest", "user"],
+      default: "guest",
+    },
   },
   { timestamps: true },
 );

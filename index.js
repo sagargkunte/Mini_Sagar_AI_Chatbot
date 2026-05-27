@@ -33,10 +33,6 @@ const io = new Server(server);
     console.log("🚀 Initializing RAG Vector Store...");
     await initVectorStore();
     console.log("✅ RAG Vector Store initialized successfully");
-
-    // Optional: Seed the vector store if needed (run once)
-    // Uncomment the line below if you want to re-seed the vector store
-    // await seedVectorStore();
   } catch (error) {
     console.error(
       "⚠️ Note: RAG Vector Store initialization failed:",
@@ -88,6 +84,6 @@ app.use("/ai", router);
 
 app.use("/user", userRouter);
 
-server.listen(PORT, () => {
+server.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });

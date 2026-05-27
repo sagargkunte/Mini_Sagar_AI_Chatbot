@@ -2,11 +2,11 @@ name: Mini Sagar AI Chatbot CI/CD
 
 on:
   push:
-    branches:  
-      - master 
+    branches:
+      - master
   pull_request:
-    branches:  
-      - master 
+    branches:
+      - master
 
 jobs:
   build:
@@ -51,6 +51,6 @@ jobs:
         run: |
           # FIXED: Using the hyphenated version 'docker-compose' supported by your system v1/v2 binary alias
           docker-compose pull
-          
+
           # Spin up the app and qdrant-db containers together seamlessly
           docker-compose up -d --force-recreate

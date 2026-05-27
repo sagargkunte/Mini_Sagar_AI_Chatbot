@@ -10,19 +10,17 @@ export function checkForAuthentication(cookieName) {
       "/user/auth/github",
       "/user/auth/github/callback",
       "/skip",
-      "/ai/aiSagar"
+      "/ai/aiSagar",
     ];
     if (publicRoute.includes(req.path)) {
       return next();
     }
 
     const cookie = req.cookies[cookieName];
-    // console.log("The cookie is ", cookie);
     if (!cookie) {
-      console.log("Did not found cookie!");
       return res.redirect("/user/login");
     }
-    // console.log('Hey you hitted a middleware');
+
     try {
       const payload = validateToken(cookie);
       console.log("This is ", payload);
@@ -30,9 +28,9 @@ export function checkForAuthentication(cookieName) {
       return next();
     } catch (e) {
       console.log(
-        "This is in middleware and this is excuted when error occurs"
+        "This is in middleware and this is excuted when error occurs",
       );
       return res.redirect(`${process.env.CLIENT_URL}`);
     }
   };
-  }
+}

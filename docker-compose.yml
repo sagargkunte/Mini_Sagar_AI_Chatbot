@@ -18,7 +18,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3001
-      - QDRANT_URL=http://qdrant-db:6333  # UPDATED: Using container_name for absolute network resolution
+      - QDRANT_URL=http://qdrant-db:6333 # UPDATED: Using container_name for absolute network resolution
 
     depends_on:
       - qdrant
@@ -32,7 +32,7 @@ services:
     restart: unless-stopped
 
     ports:
-      - "6333:6333"  # UPDATED: Changed from expose to ports for bulletproof container communication
+      - "6333:6333" # UPDATED: Changed from expose to ports for bulletproof container communication
 
     volumes:
       - qdrant_storage:/qdrant/storage
@@ -42,7 +42,7 @@ services:
 
 volumes:
   qdrant_storage:
-    driver: local  # UPDATED: Explicitly defining the local driver for production stability on your /data partition
+    driver: local # UPDATED: Explicitly defining the local driver for production stability on your /data partition
 
 networks:
   app-network:

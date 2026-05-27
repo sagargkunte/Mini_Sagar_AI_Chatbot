@@ -45,8 +45,13 @@ router.post("/signup", async (req, res) => {
   const hashPassword = await bcrypt.hash(password, salt);
   console.log(name, email, password, hashPassword);
   try {
-    const user = await User.create({ name, email, password: hashPassword,role:"user",login:"manual" });
-    console.log(user);
+    const user = await User.create({
+      name,
+      email,
+      password: hashPassword,
+      role: "user",
+      login: "manual",
+    });
     res.cookie("user", createTokenForUser(user)).redirect("/");
   } catch (e) {
     console.log("Error while doing signup!");
@@ -58,7 +63,7 @@ router.get(
   googlePassport.authenticate("google", {
     scope: ["profile", "email"],
     session: false,
-  })
+  }),
 );
 
 router.get(
@@ -69,12 +74,15 @@ router.get(
   }),
   (req, res) => {
     res.cookie("user", req.user, { httpOnly: true }).redirect("/");
-  }
+  },
 );
 
 router.get(
   "/auth/github",
-  githubPassport.authenticate("github", { scope: ["user:email"], session: false })
+  githubPassport.authenticate("github", {
+    scope: ["user:email"],
+    session: false,
+  }),
 );
 
 router.get(
@@ -85,7 +93,7 @@ router.get(
   }),
   (req, res) => {
     res.cookie("user", req.user, { httpOnly: true }).redirect("/");
-  }
+  },
 );
 
 export const userRouter = router;

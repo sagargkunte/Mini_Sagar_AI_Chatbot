@@ -130,7 +130,7 @@ export const initVectorStore = async () => {
   vectorStoreInstance = await QdrantVectorStore.fromExistingCollection(
     getEmbeddingModel(),
     {
-      url: "http://localhost:6333",
+      url: process.env.QDRANT_URL || "http://localhost:6333",
       collectionName: "miniSagarAIchatbot",
     },
   );
