@@ -4,10 +4,9 @@ services:
   nodejs-app:
     build:
       context: .
-      dockerfile: Dockerfile   # FIXED (case-sensitive)
+      dockerfile: Dockerfile
 
     container_name: mini-sagar-ai-chatbot
-
     restart: unless-stopped
 
     ports:
@@ -19,22 +18,21 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3001
-      - QDRANT_URL=http://qdrant:6333
+      - QDRANT_URL=http://qdrant-db:6333  # UPDATED: Using container_name for absolute network resolution
 
     depends_on:
       - qdrant
 
     networks:
       - app-network
+
   qdrant:
     image: qdrant/qdrant:latest
-
     container_name: qdrant-db
-
     restart: unless-stopped
 
-    expose:
-      - "6333"
+    ports:
+      - "6333:6333"  # UPDATED: Changed from expose to ports for bulletproof container communication
 
     volumes:
       - qdrant_storage:/qdrant/storage
@@ -44,6 +42,8 @@ services:
 
 volumes:
   qdrant_storage:
+    driver: local  # UPDATED: Explicitly defining the local driver for production stability on your /data partition
 
 networks:
   app-network:
+    driver: bridge
