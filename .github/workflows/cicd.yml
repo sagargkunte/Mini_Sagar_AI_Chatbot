@@ -49,8 +49,8 @@ jobs:
 
       - name: Deploy Application Stack via Docker Compose
         run: |
-          # Pull the fresh image safely via the compose engine mapping
-          docker compose pull
+          # FIXED: Using the hyphenated version 'docker-compose' supported by your system v1/v2 binary alias
+          docker-compose pull
           
           # Spin up the app and qdrant-db containers together seamlessly
-          docker compose up -d --force-recreate
+          docker-compose up -d --force-recreate
