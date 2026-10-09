@@ -27,6 +27,7 @@ export function checkForAuthentication(cookieName) {
       req.user = payload;
       return next();
     } catch (e) {
+      res.clearCookie(cookieName);
       console.log(
         "This is in middleware and this is excuted when error occurs",
       );
