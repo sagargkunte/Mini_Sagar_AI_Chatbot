@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "build": "echo \"No build step required for plain JS\""
   },
   "keywords": [],
   "author": "",
