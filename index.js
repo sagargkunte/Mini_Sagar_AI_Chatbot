@@ -23,7 +23,13 @@ config();
 connectDB();
 const app = express();
 
-const PORT = process.env.PORT || 3000;
+// Slate assigns ZC_SLATE_PORT; Catalyst AppSail uses
+// X_ZOHO_CATALYST_LISTEN_PORT. Keep PORT for local and other deployments.
+const PORT =
+  process.env.ZC_SLATE_PORT ||
+  process.env.X_ZOHO_CATALYST_LISTEN_PORT ||
+  process.env.PORT ||
+  3000;
 const server = createServer(app);
 const io = new Server(server);
 
